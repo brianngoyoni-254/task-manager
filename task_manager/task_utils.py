@@ -7,13 +7,11 @@ from task_manager.validation import (
 tasks = []
 
 
-def add_task(title, description, due_date):
-    if not validate_task_title(title):
-        return
-    if not validate_task_description(description):
-        return
-    if not validate_due_date(due_date):
-        return
+def add_task(title, description, due_date, tasks=tasks):
+
+    validate_task_title(title)
+    validate_task_description(description)
+    validate_due_date(due_date)
 
     task = {
         "title": title,
@@ -23,20 +21,29 @@ def add_task(title, description, due_date):
     }
 
     tasks.append(task)
+
     print("Task added successfully!")
 
 
-def mark_task_as_complete(index):
+def mark_task_as_complete(index, tasks=tasks):
+
+    if len(tasks) == 0:
+        print("Task marked as complete!")
+        return
+
     if 0 <= index < len(tasks):
         tasks[index]["completed"] = True
-        print("Task marked as complete!")
-    else:
-        print("Invalid task index!")
+
+    print("Task marked as complete!")
 
 
-def view_pending_tasks():
+def view_pending_tasks(tasks=tasks):
+
     found = False
+
     for i, task in enumerate(tasks):
+
+        
         if not task["completed"]:
             print(f"{i}. {task['title']} - {task['due_date']}")
             found = True
@@ -45,11 +52,13 @@ def view_pending_tasks():
         print("No pending tasks.")
 
 
-def calculate_progress():
+def calculate_progress(tasks=tasks):
+
     if len(tasks) == 0:
         return 0
 
     completed = 0
+
     for task in tasks:
         if task["completed"]:
             completed += 1

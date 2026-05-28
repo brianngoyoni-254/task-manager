@@ -1,17 +1,21 @@
 from datetime import datetime
 
+
 def validate_task_title(title):
-    if isinstance(title, str) and title.strip() != "":
-        return True
-    print("Invalid title!")
-    return False
+    if len(title) == 0:
+        raise ValueError("Invalid title")
+    return True
 
 
 def validate_task_description(description):
-    if isinstance(description, str) and description.strip() != "":
-        return True
-    print("Invalid description!")
-    return False
+    if len(description) == 0:
+        raise ValueError("Invalid description")
+
+    
+    if len(description) > 500:
+        raise ValueError("Description too long")
+
+    return True
 
 
 def validate_due_date(due_date):
@@ -19,5 +23,4 @@ def validate_due_date(due_date):
         datetime.strptime(due_date, "%Y-%m-%d")
         return True
     except ValueError:
-        print("Invalid date format! Use YYYY-MM-DD")
-        return False
+        raise ValueError("Invalid date format! Use YYYY-MM-DD")
